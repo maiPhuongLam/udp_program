@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UDP CLIENT</title>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+      <label for="numberInput">Nhập 1 số:</label>
+      <input type="number" id="input" autocomplete="off" />
+      <button type="submit" id="send-number">Gửi</button>
+      <p id="result">Tổng:</p>
+    </form>
+      <script type="text/javascript">
+      const input = document.querySelector("#input");
+      const btnSubmit = document.querySelector("#send-number")
+      const postData = async (url, data) => {
+        const response = await fetch(url, {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          mode: "cors", // no-cors, *cors, same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, *same-origin, omit
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: data
+        })
+        return await response.json()
+      }
+      btnSubmit.addEventListener("click", async (e) => {
+        e.preventDefault()
+        const response = await postData("http://localhost:4000/send", JSON.stringify({ number: input.value }))
+        input.value = ""
+        console.log(response);
+        document.querySelector("#result").textContent = response.number
+      })
+
+    </script>
+      
+    </script>
+  </body>
+</html>
